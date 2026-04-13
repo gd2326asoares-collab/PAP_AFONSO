@@ -11,24 +11,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 :root {
-  --bg:#0A0A0A; --bg2:#111115; --fg:#F2EFE8;
+  --bg:#050507; --bg2:#0B0B0F; --fg:#F2EFE8;
   --yellow:#F0B429; --yellow2:#FFD166; --accent:#E05C2A;
-  --muted:rgba(242,239,232,0.45); --border:rgba(242,239,232,0.07);
-  --h1:clamp(3.5rem,12vw,10rem); --h2:clamp(2.2rem,6vw,5.5rem);
+  --gradient: linear-gradient(135deg, #F0B429 0%, #E05C2A 100%);
+  --muted:rgba(242,239,232,0.55); --border:rgba(242,239,232,0.08);
+  --h1:clamp(3.2rem,9vw,8.5rem); --h2:clamp(2.2rem,6vw,5.5rem);
   --body:clamp(1rem,1.1vw,1.15rem);
   --ease-out:cubic-bezier(0.16,1,0.3,1);
-  --ease-bounce:cubic-bezier(0.34,1.56,0.64,1);
+  --ease-bounce:cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto}
 body{background:var(--bg);color:var(--fg);font-family:'Poppins',sans-serif;overflow-x:hidden;cursor:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 
+/* SCROLLBAR & TYPOGRAPHY */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(240,180,41,0.3);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(240,180,41,0.6)}
+
+em {font-style:normal;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 10px 20px rgba(240,180,41,0.3)}
+
 /* CURSOR */
-#c-dot{position:fixed;z-index:9999;width:10px;height:10px;background:var(--yellow);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;will-change:transform}
-#c-ring{position:fixed;z-index:9998;width:44px;height:44px;border:1.5px solid rgba(240,180,41,0.5);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s}
+#c-dot{position:fixed;z-index:9999;width:10px;height:10px;background:var(--yellow);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,box-shadow .25s;will-change:transform;box-shadow:0 0 15px var(--yellow)}
+#c-ring{position:fixed;z-index:9998;width:44px;height:44px;border:1.5px solid rgba(240,180,41,0.5);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);will-change:transform;transition:width .3s,height .3s,border-color .3s,box-shadow .3s;box-shadow:0 0 15px rgba(240,180,41,0.15), inset 0 0 15px rgba(240,180,41,0.15)}
 .cursor-hover #c-dot{width:6px;height:6px;background:var(--fg)}
-.cursor-hover #c-ring{width:64px;height:64px;border-color:var(--yellow)}
+.cursor-hover #c-ring{width:64px;height:64px;border-color:var(--yellow);box-shadow:0 0 35px rgba(240,180,41,0.6), inset 0 0 35px rgba(240,180,41,0.4)}
 
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:8000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem}
@@ -52,12 +61,13 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 /* HERO */
 #hero{position:relative;height:100vh;display:flex;align-items:center;overflow:hidden}
 .hero-bg-img{position:absolute;inset:0;background-size:cover;background-position:center 30%;will-change:transform}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,10,10,0.96) 0%,rgba(10,10,10,0.7) 55%,rgba(10,10,10,0.2) 100%)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(5,5,7,0.98) 0%,rgba(5,5,7,0.85) 45%,rgba(5,5,7,0.2) 100%);z-index:1}
 .hero-inner{position:relative;z-index:2;padding:0 4vw;max-width:1200px;width:100%}
-.hero-eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:var(--yellow);margin-bottom:2rem;opacity:0;display:flex;align-items:center;gap:1rem}
-.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--yellow)}
+.hero-eyebrow{font-size:0.75rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--yellow);margin-bottom:2rem;opacity:0;display:flex;align-items:center;gap:1.5rem}
+.hero-eyebrow::before{content:'';width:50px;height:1.5px;background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
 .hero-h1{font-weight:900;font-size:var(--h1);line-height:0.92;letter-spacing:-0.03em;text-transform:uppercase;margin-bottom:2.5rem}
-.hero-sub{font-size:clamp(0.95rem,1.5vw,1.15rem);font-weight:300;color:var(--muted);max-width:480px;line-height:1.75;margin-bottom:3.5rem;opacity:0;transform:translateY(30px)}
+.hero-h1 span.text-grad{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 20px 50px rgba(240,180,41,0.4)}
+.hero-sub{font-size:clamp(1.05rem,1.5vw,1.25rem);font-weight:300;color:var(--muted);max-width:520px;line-height:1.8;margin-bottom:3.5rem;opacity:0;transform:translateY(30px)}
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;transform:translateY(20px)}
 .btn{display:inline-flex;align-items:center;gap:0.6rem;padding:1rem 2.2rem;font-family:'Poppins',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:none;border:none;transition:transform 0.35s var(--ease-bounce),box-shadow 0.3s}
 .btn:hover{transform:translateY(-3px) scale(1.03)}
@@ -89,16 +99,17 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 .gallery-head h2 em{font-style:italic;color:var(--yellow)}
 .gallery-count{font-size:0.72rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;flex-shrink:0;padding-bottom:0.5rem}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.g-item{position:relative;overflow:hidden;background:#1a1a1a;will-change:clip-path}
+.g-item{position:relative;overflow:hidden;background:#1a1a1a;will-change:transform,clip-path;border-radius:12px;transform-style:preserve-3d;box-shadow:0 15px 40px rgba(0,0,0,0.6)}
+.g-item:hover{z-index:10;box-shadow:0 40px 80px rgba(0,0,0,0.9), 0 0 30px rgba(240,180,41,0.25);border:1px solid rgba(240,180,41,0.4)}
 .g-item:nth-child(1){grid-row:span 2} .g-item:nth-child(5){grid-column:span 2}
-.g-item img{width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transform:scale(1.15);filter:grayscale(15%) contrast(1.05);transition:filter 0.5s,transform 0.7s var(--ease-out);will-change:transform}
-.g-item:hover img{filter:grayscale(0%) contrast(1);transform:scale(1.0)}
-.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.85) 0%,transparent 50%);opacity:0;transition:opacity 0.4s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+.g-item img{width:100%;height:100%;min-height:260px;object-fit:cover;display:block;transform:scale(1.15) translateZ(-10px);filter:grayscale(30%) contrast(1.1);transition:filter 0.6s,transform 0.8s var(--ease-out);will-change:transform;pointer-events:none}
+.g-item:hover img{filter:grayscale(0%) contrast(1.05);transform:scale(1.05) translateZ(0)}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,7,0.95) 0%,transparent 45%);opacity:0;transition:opacity 0.4s;display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem;transform:translateZ(40px);pointer-events:none}
 .g-item:hover .g-overlay{opacity:1}
-.g-title{font-weight:600;font-size:0.9rem;color:var(--fg);margin-bottom:0.2rem;transform:translateY(8px);opacity:0;transition:transform 0.3s var(--ease-out) 0.05s,opacity 0.3s 0.05s}
-.g-cat{font-weight:300;font-size:0.7rem;color:var(--yellow);letter-spacing:0.12em;text-transform:uppercase;transform:translateY(8px);opacity:0;transition:transform 0.3s var(--ease-out) 0.1s,opacity 0.3s 0.1s}
+.g-title{font-weight:700;font-size:1.1rem;color:var(--fg);margin-bottom:0.4rem;transform:translateY(12px);opacity:0;transition:transform 0.4s var(--ease-out) 0.05s,opacity 0.4s 0.05s}
+.g-cat{font-weight:500;font-size:0.75rem;color:var(--yellow);letter-spacing:0.18em;text-transform:uppercase;transform:translateY(12px);opacity:0;transition:transform 0.4s var(--ease-out) 0.1s,opacity 0.4s 0.1s}
 .g-item:hover .g-title,.g-item:hover .g-cat{transform:translateY(0);opacity:1}
-.g-item:hover .g-cat{letter-spacing:0.2em}
+.g-item:hover .g-cat{letter-spacing:0.25em;text-shadow:0 0 10px rgba(240,180,41,0.5)}
 
 /* VIDEO SECTION */
 #video{padding:8rem 4vw;background:var(--bg2)}
@@ -117,10 +128,14 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 .prog-eyebrow::before{content:'';width:30px;height:1px;background:var(--yellow)}
 .prog-h2{font-weight:900;font-size:var(--h2);letter-spacing:-0.03em;text-transform:uppercase;line-height:0.95;margin-bottom:5rem}
 .prog-h2 em{font-style:italic;color:var(--yellow)}
-.prog-row{display:grid;grid-template-columns:100px 1fr;gap:2rem;padding:2rem 0;border-top:1px solid var(--border);opacity:0;transform:translateY(25px);transition:opacity 0.7s var(--ease-out),transform 0.7s var(--ease-out)}
-.prog-row.vis{opacity:1;transform:none}
+.prog-row{display:grid;grid-template-columns:100px 1fr;gap:2rem;padding:2.5rem 1.5rem;border-top:1px solid var(--border);border-radius:16px;opacity:0;transform:perspective(1000px) rotateX(-20deg) translateY(35px);transform-origin:top;transition:all 0.5s var(--ease-out),opacity 0.8s,transform 0.8s;position:relative;overflow:hidden}
+.prog-row::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(240,180,41,0.06),transparent);transform:translateX(-100%);transition:transform 0.6s var(--ease-out);z-index:0}
+.prog-row:hover{background:rgba(255,255,255,0.02);border-color:rgba(240,180,41,0.4);transform:scale(1.02) translateZ(15px)!important;box-shadow:0 20px 50px rgba(0,0,0,0.6);z-index:5}
+.prog-row:hover::before{transform:translateX(0)}
+.prog-row > *{position:relative;z-index:1}
+.prog-row.vis{opacity:1;transform:perspective(1000px) rotateX(0deg) translateY(0)}
 .prog-row:last-child{border-bottom:1px solid var(--border)}
-.prog-time{font-weight:700;font-size:0.82rem;color:var(--yellow);letter-spacing:0.05em;padding-top:0.15rem}
+.prog-time{font-weight:800;font-size:1rem;color:var(--yellow);letter-spacing:0.05em;text-shadow:0 0 15px rgba(240,180,41,0.6)}
 .prog-body h4{font-weight:600;font-size:1rem;color:var(--fg);margin-bottom:0.35rem;line-height:1.3}
 .prog-body p{font-size:0.82rem;font-weight:300;color:var(--muted);line-height:1.65;letter-spacing:0.01em}
 
@@ -136,14 +151,20 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 .pap-text h2{font-weight:900;font-size:var(--h2);letter-spacing:-0.03em;text-transform:uppercase;line-height:0.95;margin-bottom:2rem}
 .pap-text h2 em{font-style:italic;color:var(--yellow)}
 .pap-text p{font-size:var(--body);font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1rem;letter-spacing:0.01em}
-.skills-grid{margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
-.skill-card{border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;transition:border-color 0.3s,background 0.3s}
-.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform 0.4s var(--ease-out)}
-.skill-card:hover{border-color:rgba(240,180,41,0.3);background:rgba(240,180,41,0.03)}
-.skill-card:hover::before{transform:scaleX(1)}
-.skill-num{font-weight:700;font-size:0.65rem;color:var(--yellow);letter-spacing:0.15em;margin-bottom:0.6rem}
-.skill-title{font-weight:600;font-size:0.88rem;color:var(--fg);margin-bottom:0.4rem;line-height:1.3}
-.skill-desc{font-size:0.78rem;font-weight:300;color:var(--muted);line-height:1.65}
+.skills-grid{margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@keyframes floatLogo{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+.inst-logo{max-height:55px;display:block;margin-bottom:1.5rem;filter:drop-shadow(0 10px 15px rgba(240,180,41,0.25));animation:floatLogo 4s ease-in-out infinite;transform-style:preserve-3d;transform:translateZ(50px);pointer-events:none}
+.skill-card:hover .inst-logo{filter:drop-shadow(0 15px 35px rgba(240,180,41,0.7));animation-duration:2.5s}
+.skill-card{background:rgba(255,255,255,0.015);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.06);border-top:1px solid rgba(255,255,255,0.15);border-left:1px solid rgba(255,255,255,0.1);padding:1.8rem;border-radius:18px;position:relative;overflow:visible;transition:all 0.5s var(--ease-out);transform-style:preserve-3d;will-change:transform;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
+.skill-card > *{pointer-events:none;transform:translateZ(40px)}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient);transform:scaleX(0) translateZ(0);transform-origin:left;transition:transform 0.5s var(--ease-out)}
+.skill-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%, rgba(240,180,41,0.25), transparent 70%);opacity:0;transition:opacity 0.6s;transform:translateZ(0);border-radius:18px;pointer-events:none}
+.skill-card:hover{border-color:rgba(240,180,41,0.6);background:rgba(240,180,41,0.06);box-shadow:0 45px 90px rgba(0,0,0,0.9), inset 0 0 25px rgba(240,180,41,0.15)}
+.skill-card:hover::before{transform:scaleX(1) translateZ(0)}
+.skill-card:hover::after{opacity:1}
+.skill-num{font-weight:900;font-size:0.75rem;color:var(--yellow);letter-spacing:0.2em;margin-bottom:0.6rem;text-shadow:0 0 10px rgba(240,180,41,0.5)}
+.skill-title{font-weight:700;font-size:1.05rem;color:var(--fg);margin-bottom:0.5rem;line-height:1.3}
+.skill-desc{font-size:0.85rem;font-weight:300;color:var(--muted);line-height:1.7}
 
 /* PROGRESS DOT NAV */
 #prog-indicator{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;align-items:center;gap:6px}
@@ -152,13 +173,14 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 
 /* FOOTER */
 footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3rem}
-.footer-grid{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
+.footer-grid{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1.2fr 0.8fr 2fr 0.8fr;gap:3rem;padding-bottom:4rem;border-bottom:1px solid var(--border)}
 .footer-brand h3{font-weight:900;font-size:1.5rem;letter-spacing:-0.02em;text-transform:uppercase;color:var(--fg);margin-bottom:1rem;line-height:1.1}
 .footer-brand h3 span{color:var(--yellow)}
 .footer-brand p{font-size:0.82rem;font-weight:300;color:var(--muted);line-height:1.7;max-width:260px}
-.footer-col h5{font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1.2rem}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
-.footer-col ul li{font-size:0.82rem;font-weight:300;color:var(--muted);line-height:1.5}
+.footer-col h5{font-size:0.65rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.5rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.8rem}
+.footer-col ul li{font-size:0.85rem;font-weight:300;color:var(--muted);line-height:1.5;transition:color 0.3s, transform 0.3s var(--ease-out)}
+.footer-col ul li:hover{color:var(--yellow);transform:translateX(5px)}
 .footer-bottom{max-width:1300px;margin:2.5rem auto 0;display:flex;justify-content:space-between;align-items:center}
 .footer-bottom p{font-size:0.72rem;font-weight:300;color:rgba(255,255,255,0.2)}
 
@@ -188,29 +210,39 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
 <div id="prog-indicator">
   <div class="prog-dot active" data-target="hero"></div>
   <div class="prog-dot" data-target="wave"></div>
+  <div class="prog-dot" data-target="instituicoes"></div>
+  <div class="prog-dot" data-target="pre-evento"></div>
   <div class="prog-dot" data-target="gallery"></div>
   <div class="prog-dot" data-target="video"></div>
   <div class="prog-dot" data-target="programme"></div>
   <div class="prog-dot" data-target="pap"></div>
+  <div class="prog-dot" data-target="conclusao"></div>
 </div>
 
 <nav id="main-nav">
   <a href="#hero" class="nav-mark">SI <em>·</em> 25</a>
   <ul class="nav-links">
     <li><a href="#wave">Projeto</a></li>
-    <li><a href="#gallery">Galeria</a></li>
-    <li><a href="#video">Vídeo</a></li>
+    <li><a href="#instituicoes">Instituições</a></li>
+    <li><a href="#pre-evento">Pré-Evento</a></li>
+    <li><a href="#gallery">Media</a></li>
     <li><a href="#programme">Programa</a></li>
     <li><a href="#pap">PAP</a></li>
+    <li><a href="#conclusao">Conclusão</a></li>
   </ul>
 </nav>
 
 <section id="hero"><div class="hero-bg-img" id="heroBg" style="background-image:url('37-LMF_9935.jpg')"></div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow" id="hero-eyebrow">PAP · 12.º GD · Gestão Desportiva · 2025/26</div>
+    <div id="hero-logos" style="display:flex; gap:1.5rem; margin-bottom: 2rem; opacity:0; transform:translateY(20px);">
+       <img src="logo-escola.png" alt="Logotipo Escola" style="max-height:80px; filter:drop-shadow(0 10px 15px rgba(0,0,0,0.5));" onerror="this.style.display='none'">
+       <img src="logo-escola2.png" alt="Logotipo Secundário" style="max-height:80px; filter:drop-shadow(0 10px 15px rgba(0,0,0,0.5));" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-eyebrow" id="hero-eyebrow">Prova de Aptidão Profissional · 2025/26</div>
     <h1 class="hero-h1" id="hero-h1"></h1>
-    <p class="hero-sub" id="hero-sub">Organização do Seminário Internacional promovido pelo IPDJ em colaboração com a Câmara Municipal de Matosinhos. 18 de novembro de 2025.</p>
+    <h3 id="hero-name" style="font-size: clamp(1.2rem, 2vw, 1.8rem); font-weight: 700; color: var(--fg); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; text-shadow: 0 10px 20px rgba(0,0,0,0.6); opacity: 0; transform: translateY(20px);">Afonso Pinho Terra Soares</h3>
+    <p class="hero-sub" id="hero-sub">Aluno do 12.º Ano de Gestão Desportiva<br><br><em>"Como Conciliar?"</em><br>Organização do Seminário Internacional promovido pelo IPDJ em colaboração com a Câmara Municipal de Matosinhos.</p>
     <div class="hero-actions" id="hero-actions">
       <a href="#wave" class="btn btn-fill">Descobrir ↓</a>
       <a href="#programme" class="btn btn-ghost">Programa</a>
@@ -228,20 +260,74 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
     <div class="wave-section-label">O Projeto</div>
     <div class="wave-inner">
       <div class="col-left" id="wave-left">
-        <div class="wave-keyword">Ética<br><span class="accent">no Desporto</span></div>
-        <div class="wave-keyword">Formação<br><span style="font-weight:300;color:var(--muted)">de atletas</span></div>
-        <div class="wave-keyword"><span class="accent">Gestão</span><br>de Eventos</div>
-        <div class="wave-keyword">Valores<br><span style="font-weight:300;color:var(--muted)">e Fair Play</span></div>
+        <div class="wave-keyword">Introdução<br><span class="accent">à PAP</span></div>
+        <div class="wave-keyword">Objetivos<br><span style="font-weight:300;color:var(--muted)">Gerais</span></div>
+        <div class="wave-keyword"><span class="accent">Aprender</span><br>na Prática</div>
+        <div class="wave-keyword">Ética &<br><span style="font-weight:300;color:var(--muted)">Formação</span></div>
       </div>
       <div class="col-right" id="wave-right">
-        <div class="wave-desc">O <strong>Plano Nacional de Ética no Desporto (PNED)</strong> promove a formação de atletas íntegros, abordando a especialização precoce, o abandono desportivo e comportamentos antidesportivos.</div>
-        <div class="wave-desc">A integração numa equipa organizadora real, em parceria com o <strong>IPDJ e a Câmara Municipal de Matosinhos</strong>, proporcionou uma visão completa do processo de planeamento e execução de um evento internacional.</div>
-        <div class="wave-desc">As tarefas realizadas abrangeram a <strong>pesquisa de oradores, criação de materiais de divulgação</strong>, montagem logística e receção de participantes.</div>
-        <div class="wave-desc">O seminário contou com <strong>Sergio J. Ibáñez, Júlio Garganta da Silva, Camilla Knight e Scott Rathwell</strong>, reunindo investigadores de Portugal, Espanha, Reino Unido e Canadá.</div>
+        <div class="wave-desc">Esta Prova de Aptidão Profissional (PAP) no curso de <strong>Gestão Desportiva</strong> reflete uma experiência real: a organização do Seminário Internacional "Da Formação à Competição".</div>
+        <div class="wave-desc">O objetivo primário foi <strong>compreender e executar, na prática</strong>, o planeamento, gestão e coordenação logística associados a grandes eventos.</div>
+        <div class="wave-desc">O projeto procurou evidenciar competências técnicas aprendidas no curso e salientar a força da <strong>Gestão Desportiva</strong> no impacto social.</div>
+        <div class="wave-desc">Sob o foco do <em>Fair Play</em>, constatou-se como o desporto deve assumir a <strong>formação de princípios</strong> perante os enormes desafios da competição moderna.</div>
       </div>
     </div>
   </div>
 </div>
+
+<section id="instituicoes" style="padding: 10rem 4vw; background: var(--bg2);">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="video-eyebrow">Parceiros Principais</div>
+    <h2 class="video-h2">As <em>Instituições</em></h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem;">
+      <div class="skill-card">
+        <img src="logo-ipdj.png.png" alt="IPDJ" class="inst-logo" onerror="this.style.display='none'">
+        <h3 style="color: var(--yellow); font-size: 1.5rem; margin-bottom: 1rem;">IPDJ</h3>
+        <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.7;">Instituto Português do Desporto e Juventude. Promotor primordial do evento, focado incansavelmente no desenvolvimento desportivo nacional e na coordenação ativa de eventos cívicos para os jovens.</p>
+      </div>
+      <div class="skill-card">
+        <img src="logo-pned.png.png" alt="PNED" class="inst-logo" onerror="this.style.display='none'">
+        <h3 style="color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem;">PNED</h3>
+        <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.7;">Plano Nacional de Ética no Desporto. Forneceu o núcleo concetual do evento, promovendo o desporto como verdadeiro meio de desenvolvimento pessoal, cooperativo e assente nos alicerces do <em>Fair Play</em>.</p>
+      </div>
+      <div class="skill-card">
+        <img src="logo-atosinhos.png.png" alt="Matosinhos" class="inst-logo" onerror="this.style.display='none'">
+        <h3 style="color: var(--fg); font-size: 1.5rem; margin-bottom: 1rem;">Matosinhos Sport</h3>
+        <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.7;">Entidade tutelada pela Câmara Municipal, assumiu a alocação infraestrutural, o cofinanciamento e a logística pesada essencial para fazer de Matosinhos a montra central deste intercâmbio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pre-evento" style="padding: 8rem 4vw; background: var(--bg);">
+  <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+    <div style="padding-right: 4rem;">
+      <div class="video-eyebrow">A Preparação</div>
+      <h2 class="video-h2">Fase <em>Pré-Evento</em></h2>
+      <div style="border-left: 2px solid var(--border); padding-left: 2.5rem; display: flex; flex-direction: column; gap: 3rem; margin-top: 4rem;">
+        <div style="position: relative;">
+          <div style="position: absolute; left: -2.9rem; top: 0.2rem; width: 14px; height: 14px; background: var(--yellow); border-radius: 50%;"></div>
+          <h4 style="font-size: 1.1rem; color: var(--fg); margin-bottom: 0.5rem; letter-spacing: 0.05em;">30 OUT — Planificação</h4>
+          <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.6;">Reuniões colaborativas via Teams com a organização oficial para estruturação das tarefas e integração do projeto.</p>
+        </div>
+        <div style="position: relative;">
+          <div style="position: absolute; left: -2.9rem; top: 0.2rem; width: 14px; height: 14px; background: var(--yellow); border-radius: 50%;"></div>
+          <h4 style="font-size: 1.1rem; color: var(--fg); margin-bottom: 0.5rem; letter-spacing: 0.05em;">NOV — Pesquisa & Imagem</h4>
+          <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.6;">Recolha dedicada de dados biográficos, fotografias institucionais e acessos às redes sociais dos oradores para criar materiais formativos e de divulgação digital.</p>
+        </div>
+        <div style="position: relative;">
+          <div style="position: absolute; left: -2.9rem; top: 0.2rem; width: 14px; height: 14px; background: var(--yellow); border-radius: 50%;"></div>
+          <h4 style="font-size: 1.1rem; color: var(--fg); margin-bottom: 0.5rem; letter-spacing: 0.05em;">17 NOV — Montagem Técnica</h4>
+          <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.6;">Atuação física no local em vésperas da abertura: organização de equipamentos visuais, implantação de banners e preparação direta do palco e acolhimento.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <img src="4-LMF_0146.jpg" alt="A preparar evento" style="width: 100%; border-radius: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+      <img src="10-DSC_7889.jpg" alt="Backstage do momento" style="width: 100%; border-radius: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+    </div>
+  </div>
+</section>
 
 <section id="gallery">
   <div class="gallery-head">
@@ -305,12 +391,18 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
   <div class="prog-inner">
     <div class="prog-eyebrow">Agenda</div>
     <h2 class="prog-h2">Programa<br><em>do Dia</em></h2>
-    <div class="prog-row"><div class="prog-time">09:00</div><div class="prog-body"><h4>Receção e Acreditação</h4><p>Acolhimento dos participantes e entrega de materiais.</p></div></div>
-    <div class="prog-row"><div class="prog-time">09:30</div><div class="prog-body"><h4>Sessão de Abertura</h4><p>Boas-vindas institucionais — IPDJ, Câmara Municipal de Matosinhos.</p></div></div>
-    <div class="prog-row"><div class="prog-time">10:00</div><div class="prog-body"><h4>Painel I — Formação de Jovens Atletas</h4><p>Sergio J. Ibáñez (Espanha) e Júlio Garganta da Silva (Portugal).</p></div></div>
-    <div class="prog-row"><div class="prog-time">11:30</div><div class="prog-body"><h4>Coffee Break</h4><p>Momento de networking e troca de experiências.</p></div></div>
-    <div class="prog-row"><div class="prog-time">12:00</div><div class="prog-body"><h4>Painel II — O Papel dos Pais e Treinadores</h4><p>Camilla Knight (Reino Unido) e Scott Rathwell (Canadá).</p></div></div>
-    <div class="prog-row"><div class="prog-time">14:00</div><div class="prog-body"><h4>Mesa Redonda & Encerramento</h4><p>Reflexão conjunta e entrega de certificados de participação.</p></div></div>
+    <div class="prog-row"><div class="prog-time">09:00</div><div class="prog-body"><h4>Acreditação</h4><p>Receção e acolhimento dos participantes.</p></div></div>
+    <div class="prog-row"><div class="prog-time">09:30</div><div class="prog-body"><h4>Sessão de Abertura</h4><p>Câmara Municipal de Matosinhos; Instituto Politécnico do Porto; IPDJ.</p></div></div>
+    <div class="prog-row"><div class="prog-time">09:45</div><div class="prog-body"><h4>Como conciliar a Competição com a formação?</h4><p>Sergio J. Ibáñez; Júlio Garganta da Silva | Moderação: Rui Matos.</p></div></div>
+    <div class="prog-row"><div class="prog-time">11:15</div><div class="prog-body"><h4>Intervalo</h4><p>Coffee break e momento de networking.</p></div></div>
+    <div class="prog-row"><div class="prog-time">11:30</div><div class="prog-body"><h4>O papel e responsabilidades dos agentes desportivos e educadores</h4><p>Camilla Knight; Dimas Pinto; Scott Rathwell | Moderação: Fernando Santos.</p></div></div>
+    <div class="prog-row"><div class="prog-time">13:00</div><div class="prog-body"><h4>Almoço Livre</h4><p>Pausa para almoço.</p></div></div>
+    <div class="prog-row"><div class="prog-time">14:30</div><div class="prog-body"><h4>Abertura e enquadramento</h4><p>Vítor Dias.</p></div></div>
+    <div class="prog-row"><div class="prog-time">14:40</div><div class="prog-body"><h4>Mesa Redonda 1 – Boas práticas: Projetos em desenvolvimento</h4><p>Diana Silveiro; Francisco Pires; Ricardo Santos; Celso Casinha | Moderação: Raúl Antunes.</p></div></div>
+    <div class="prog-row"><div class="prog-time">15:20</div><div class="prog-body"><h4>Mesa Redonda 2 – Boas práticas: Projetos e iniciativas inovadoras</h4><p>Elisabete Rocha; Rui Pacheco; Hugo Silva | Moderação: Pedro Soares.</p></div></div>
+    <div class="prog-row"><div class="prog-time">16:10</div><div class="prog-body"><h4>Intervalo</h4><p>Coffee break.</p></div></div>
+    <div class="prog-row"><div class="prog-time">16:25</div><div class="prog-body"><h4>Mesa Redonda 3 – Boas práticas Bandeira da Ética</h4><p>Susana Leão; Ana Luísa Pereira; Mauro Oliveira; Elisabete Santos | Moderação: José Lima.</p></div></div>
+    <div class="prog-row"><div class="prog-time">17:15</div><div class="prog-body"><h4>Sessão de Encerramento</h4><p>Associação de Futebol do Porto; Instituto Politécnico de Leiria; IPDJ.</p></div></div>
   </div>
 </section>
 
@@ -322,13 +414,22 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
   <div class="pap-text">
     <div class="eyebrow">Prova de Aptidão</div>
     <h2>Gestão<br><em>Desportiva</em></h2>
-    <p>Integração na equipa organizadora de um evento real, aplicando competências de planeamento, logística e comunicação adquiridas ao longo do curso.</p>
+    <p>Integração na equipa organizadora do Seminário, aplicando competências adquiridas ao longo do Curso Profissional de Técnico de Apoio à Gestão Desportiva.</p>
     <div class="skills-grid">
-      <div class="skill-card"><div class="skill-num">01</div><div class="skill-title">Planeamento</div><div class="skill-desc">Organização logística e coordenação com entidades parceiras.</div></div>
-      <div class="skill-card"><div class="skill-num">02</div><div class="skill-title">Comunicação</div><div class="skill-desc">Criação de materiais de divulgação e contacto com oradores.</div></div>
-      <div class="skill-card"><div class="skill-num">03</div><div class="skill-title">Execução</div><div class="skill-desc">Montagem, receção de participantes e gestão do evento.</div></div>
-      <div class="skill-card"><div class="skill-num">04</div><div class="skill-title">Avaliação</div><div class="skill-desc">Análise de resultados e documentação fotográfica e vídeo.</div></div>
+      <div class="skill-card"><div class="skill-num">01</div><div class="skill-title">Apoio Logístico</div><div class="skill-desc">Montagem de espaço, púlpitos e banners na antevéspera do evento.</div></div>
+      <div class="skill-card"><div class="skill-num">02</div><div class="skill-title">Comunicação</div><div class="skill-desc">Pesquisa de redes e perfis sociais de oradores para materiais promocionais.</div></div>
+      <div class="skill-card"><div class="skill-num">03</div><div class="skill-title">Receção</div><div class="skill-desc">Acreditação de participantes, orientação no espaço e apoio direto a oradores.</div></div>
+      <div class="skill-card"><div class="skill-num">04</div><div class="skill-title">Avaliação</div><div class="skill-desc">Acompanhamento e distribuição de panfletos informativos no encerramento.</div></div>
     </div>
+  </div>
+</section>
+
+<section id="conclusao" style="padding: 10rem 4vw; background: var(--bg2); text-align: center;">
+  <div style="max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+    <div class="video-eyebrow" style="justify-content: center; margin-bottom: 1.5rem;">Balanço Final</div>
+    <h2 style="font-weight: 900; font-size: clamp(2rem, 6vw, 4rem); letter-spacing: -0.03em; color: var(--yellow); margin-bottom: 2.5rem; line-height: 0.9;">Conclusão</h2>
+    <p style="font-size: 1.1rem; font-weight: 300; color: var(--muted); line-height: 1.8; margin-bottom: 2rem;">A participação direta e dedicada na organização deste Seminário Internacional provou ser uma <strong>experiência ímpar para o meu crescimento</strong>. Os objetivos planeados foram totalmente alcançados, atestando como conhecimentos curriculares ganham força quando postos no relvado real da logística desportiva.</p>
+    <p style="font-size: 1.1rem; font-weight: 300; color: var(--fg); line-height: 1.8;">Ficou a poderosa constatação: o futuro do desporto de alta performance exige incansável formação na base. E esta conciliação far-se-á, agora ou amanhã, <strong>pela bússola soberana da ética</strong>.</p>
   </div>
 </section>
 
@@ -339,8 +440,23 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
       <p>Seminário Internacional promovido pelo IPDJ — 18 de novembro de 2025, Matosinhos.</p>
     </div>
     <div class="footer-col"><h5>Evento</h5><ul><li>IPDJ</li><li>CM Matosinhos</li><li>PNED</li></ul></div>
-    <div class="footer-col"><h5>Oradores</h5><ul><li>Sergio J. Ibáñez</li><li>Júlio Garganta</li><li>Camilla Knight</li><li>Scott Rathwell</li></ul></div>
-    <div class="footer-col"><h5>PAP</h5><ul><li>12.º Ano</li><li>Gestão Desportiva</li><li>2025/26</li></ul></div>
+    <div class="footer-col">
+      <h5>Oradores & Moderadores</h5>
+      <ul style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.5rem; row-gap: 0.8rem; font-size: 0.78rem;">
+        <li>Sergio J. Ibáñez</li><li>Júlio Garganta da Silva</li>
+        <li>Rui Matos</li><li>Camilla Knight</li>
+        <li>Dimas Pinto</li><li>Scott Rathwell</li>
+        <li>Fernando Santos</li><li>Diana Silveiro</li>
+        <li>Francisco Pires</li><li>Ricardo Santos</li>
+        <li>Celso Casinha</li><li>Raúl Antunes</li>
+        <li>Elisabete Rocha</li><li>Rui Pacheco</li>
+        <li>Hugo Silva</li><li>Pedro Soares</li>
+        <li>Susana Leão</li><li>Ana Luísa Pereira</li>
+        <li>Mauro Oliveira</li><li>Elisabete Santos</li>
+        <li style="grid-column: span 2;">José Lima</li>
+      </ul>
+    </div>
+    <div class="footer-col"><h5>Afonso Soares</h5><ul><li>12.º Ano</li><li>Gestão Desportiva</li><li>PAP 2025/26</li></ul></div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 PAP — Seminário Internacional</p>
@@ -356,6 +472,9 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.le
 (function loop(){dx+=(mx-dx)*0.15;dy+=(my-dy)*0.15;ring.style.left=dx+'px';ring.style.top=dy+'px';requestAnimationFrame(loop)})();
 document.querySelectorAll('a,button,.btn,.g-item,.skill-card').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'))});
 
+/* ── 3D TILT CARDS ── */
+document.querySelectorAll('.skill-card, .g-item').forEach(c=>{c.addEventListener('mousemove',e=>{const rect=c.getBoundingClientRect();const x=e.clientX-rect.left;const y=e.clientY-rect.top;const rx=((y/rect.height)-0.5)*-25;const ry=((x/rect.width)-0.5)*25;c.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.04,1.04,1.04)`;c.style.transition='none'});c.addEventListener('mouseleave',()=>{c.style.transform='';c.style.transition='all 0.6s var(--ease-bounce)'})});
+
 /* ── LOADER ── */
 let pct=0;const bar=document.getElementById('lb'),lbl=document.getElementById('lpct'),lw=document.getElementById('lw-text');
 setTimeout(()=>lw.classList.add('up'),200);
@@ -363,13 +482,15 @@ const itv=setInterval(()=>{pct+=Math.random()*6+2;if(pct>=100){pct=100;clearInte
 
 /* ── HERO ── */
 function animHero(){const tl=gsap.timeline();
-tl.to('#hero-eyebrow',{opacity:1,duration:0.8})
+tl.to('#hero-logos',{opacity:1,y:0,duration:0.8})
+  .to('#hero-eyebrow',{opacity:1,duration:0.6},'-=0.4')
   .fromTo('#hero-h1 span',{y:'110%'},{y:'0%',stagger:0.08,duration:0.9,ease:'power4.out'},'-=0.4')
-  .to('#hero-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.3')
+  .to('#hero-name',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.3')
+  .to('#hero-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5')
   .to('#hero-actions',{opacity:1,y:0,duration:0.7,ease:'power3.out'},'-=0.3')
   .to('#scroll-hint',{opacity:1,duration:0.6},'-=0.2');
 }
-(function splitH1(){const h1=document.getElementById('hero-h1');const words=['Da','Formação','à','Competição'];h1.innerHTML=words.map(w=>'<span>'+w+' </span>').join('')})();
+(function splitH1(){const h1=document.getElementById('hero-h1');h1.innerHTML='<span style="display:inline-block">Da&nbsp;</span><span style="display:inline-block">Formação</span><br><span style="display:inline-block">à&nbsp;</span><span class="text-grad" style="display:inline-block">Competição</span>'})();
 
 /* ── NAV SOLID ── */
 window.addEventListener('scroll',()=>{document.getElementById('main-nav').classList.toggle('solid',window.scrollY>80)});
@@ -377,11 +498,12 @@ window.addEventListener('scroll',()=>{document.getElementById('main-nav').classL
 /* ── PARALLAX HERO BG ── */
 gsap.registerPlugin(ScrollTrigger);
 gsap.to('#heroBg',{y:200,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+gsap.to('.hero-inner',{y:-100,opacity:0,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
 
 /* ── WAVE ANIMATION ── */
 const wl=document.querySelectorAll('#wave-left .wave-keyword'),wr=document.querySelectorAll('#wave-right .wave-desc');
-wl.forEach((el,i)=>{gsap.fromTo(el,{opacity:0,x:-60},{opacity:1,x:0,scrollTrigger:{trigger:'#wave-sticky',start:()=>`${i*25}% center`,end:()=>`${i*25+15}% center`,scrub:1}})});
-wr.forEach((el,i)=>{gsap.fromTo(el,{opacity:0,x:60},{opacity:1,x:0,scrollTrigger:{trigger:'#wave-sticky',start:()=>`${i*25}% center`,end:()=>`${i*25+15}% center`,scrub:1}})});
+wl.forEach((el,i)=>{gsap.fromTo(el,{opacity:0,x:-70,rotationY:-25,transformPerspective:800},{opacity:1,x:0,rotationY:0,scrollTrigger:{trigger:'#wave-sticky',start:()=>`${i*25}% center`,end:()=>`${i*25+15}% center`,scrub:1}})});
+wr.forEach((el,i)=>{gsap.fromTo(el,{opacity:0,x:70,rotationY:25,transformPerspective:800},{opacity:1,x:0,rotationY:0,scrollTrigger:{trigger:'#wave-sticky',start:()=>`${i*25}% center`,end:()=>`${i*25+15}% center`,scrub:1}})});
 
 /* ── GALLERY REVEAL ── */
 document.querySelectorAll('.g-item').forEach((el,i)=>{gsap.from(el,{clipPath:'inset(100% 0 0 0)',duration:1,ease:'power4.out',scrollTrigger:{trigger:el,start:'top 85%'}})});
@@ -391,16 +513,20 @@ const rows=document.querySelectorAll('.prog-row');const obs=new IntersectionObse
 
 /* ── PAP IMAGE CLIP ── */
 gsap.from('.pap-img-wrap img',{clipPath:'inset(0 100% 0 0)',duration:1.2,ease:'power4.out',scrollTrigger:{trigger:'#pap',start:'top 70%'}});
-gsap.from('.pap-img-accent',{scale:0,duration:0.5,ease:'back.out(2)',scrollTrigger:{trigger:'#pap',start:'top 50%'}});
+gsap.from('.pap-img-accent',{scale:0,rotation:-15,duration:0.6,ease:'back.out(2)',scrollTrigger:{trigger:'#pap',start:'top 50%'}});
 
 /* ── VIDEO REVEAL ── */
-gsap.from('.video-wrap',{opacity:0,y:60,duration:1,ease:'power3.out',scrollTrigger:{trigger:'#video',start:'top 75%'}});
+gsap.from('.video-wrap',{opacity:0,y:100,rotationX:15,transformPerspective:1000,duration:1.4,ease:'power3.out',scrollTrigger:{trigger:'#video',start:'top 75%'}});
+gsap.fromTo('.video-wrap video',{scale:1.15},{scale:1,ease:'none',scrollTrigger:{trigger:'#video',start:'top bottom',end:'bottom top',scrub:true}});
 
-/* ── SKILL CARDS ── */
+/* ── SKILL CARDS & NEW SECTIONS ── */
 document.querySelectorAll('.skill-card').forEach((c,i)=>{gsap.fromTo(c,{opacity:0,y:30},{opacity:1,y:0,duration:0.6,delay:i*0.1,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 85%'}})});
+gsap.from('#pre-evento h4, #pre-evento p',{opacity:0,x:-30,duration:0.6,stagger:0.1,ease:'power3.out',scrollTrigger:{trigger:'#pre-evento',start:'top 70%'}});
+gsap.from('#pre-evento img',{opacity:0,y:40,duration:0.8,stagger:0.2,ease:'power4.out',scrollTrigger:{trigger:'#pre-evento',start:'top 60%'}});
+gsap.from('#conclusao p',{opacity:0,y:20,duration:0.8,stagger:0.2,ease:'power3.out',scrollTrigger:{trigger:'#conclusao',start:'top 75%'}});
 
 /* ── PROGRESS DOTS ── */
-const dots=document.querySelectorAll('.prog-dot');const sections=['hero','wave','gallery','video','programme','pap'];
+const dots=document.querySelectorAll('.prog-dot');const sections=['hero','wave','instituicoes','pre-evento','gallery','video','programme','pap','conclusao'];
 sections.forEach((id,i)=>{ScrollTrigger.create({trigger:'#'+id,start:'top center',end:'bottom center',onEnter:()=>{dots.forEach(d=>d.classList.remove('active'));dots[i].classList.add('active')},onEnterBack:()=>{dots.forEach(d=>d.classList.remove('active'));dots[i].classList.add('active')}})});
 dots.forEach(d=>{d.addEventListener('click',()=>{document.getElementById(d.dataset.target).scrollIntoView({behavior:'smooth'})})});
 </script>
