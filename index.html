@@ -118,8 +118,8 @@ nav.solid{background:rgba(10,10,10,0.88);backdrop-filter:blur(24px);padding:1.2r
 .video-eyebrow::before{content:'';width:30px;height:1px;background:var(--yellow)}
 .video-h2{font-weight:900;font-size:var(--h2);letter-spacing:-0.03em;text-transform:uppercase;line-height:0.95;margin-bottom:3rem}
 .video-h2 em{font-style:italic;color:var(--yellow)}
-.video-wrap{position:relative;width:100%;border-radius:4px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
-.video-wrap video{width:100%;display:block}
+.video-wrap{position:relative;width:100%;border-radius:4px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.5);padding-bottom:56.25%;height:0}
+.video-wrap video,.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;display:block;border:none}
 
 /* PROGRAMME */
 #programme{background:var(--bg);padding:8rem 4vw}
@@ -379,10 +379,7 @@ footer{background:#060606;border-top:1px solid var(--border);padding:5rem 4vw 3r
     <div class="video-eyebrow">Vídeo do Evento</div>
     <h2 class="video-h2">O <em>Seminário</em><br>em Movimento</h2>
     <div class="video-wrap">
-      <video controls preload="auto" poster="37-LMF_9935.jpg">
-        <source src="PAP VIdeo.mp4" type="video/mp4">
-        O seu browser não suporta vídeo HTML5.
-      </video>
+      <iframe src="https://www.youtube.com/embed/Y-ZC-c48sno?rel=0&modestbranding=1" title="Seminário em Movimento" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
   </div>
 </section>
